@@ -1,2 +1,5 @@
-# contar-camisolas-e-casacos
-Contar Camisolas e Casacos no formato Excel (.xlsx)
+# Contar Camisolas e Casacos na AE
+
+Este programa serve de ajuda para contar, e enviar ao fabricante, quantas paças de roupa queremos encomendar.
+ * em formato Excel (.xlsx)
+ * Servirá para pegar na lista em excel, produzida pelo forms, e criar a template que tem todas as peças contadas.
