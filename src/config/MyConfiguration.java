@@ -10,6 +10,8 @@ public class MyConfiguration {
     private BaseDeDados contagem;
     private UserInteraction interaction;
     private IContar_N_VariaveisStrategy countNStrategy;
+    private Factory factory;
+    private int n;
 
     private MyConfiguration() {    }
 
@@ -34,10 +36,20 @@ public class MyConfiguration {
         return interaction;
     }
 
-    public IContar_N_VariaveisStrategy getContarNStrategy() {
-        if (interaction == null) {
-            interaction = new UserInteraction();
+    public Factory getFactory() {
+        if (factory == null) {
+            factory = new Factory();
         }
-        return interaction;
+        return factory;
+    }
+
+    public void setNumberCount(int n) {
+        this.n = n;
+    }
+    public IContar_N_VariaveisStrategy getContarNStrategy() {
+        if (countNStrategy == null) {
+            countNStrategy = getFactory().getCountNStrategyByIntGiven(n);
+        }
+        return countNStrategy;
     }
 }
