@@ -43,7 +43,7 @@ public class MyConfiguration {
         return factory;
     }
 
-    public void setNumberCount(int n) {
+    public void setNumberCount(int n) { //delete
         this.n = n;
     }
     public IContar_N_VariaveisStrategy getContarNStrategy() {
