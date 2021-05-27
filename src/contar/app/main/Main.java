@@ -6,14 +6,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        System.out.println("Bem-vindo ao teu Contador de Roupa! Vamos Começar :)");
-
         MyConfiguration config = MyConfiguration.getINSTANCE();
+
+
+
+        System.out.println(config.getLanguage().intro());
 
         config.getUserInteraction().interact(config);
 
-        System.out.println("Obrigado pela paciência! Vamos Começar :)");
+        System.out.println(config.getLanguage().end());
 
 
     }

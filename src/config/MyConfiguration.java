@@ -1,16 +1,21 @@
 package config;
 
 import dataBase.BaseDeDados;
-import strategy.IContar_N_VariaveisStrategy;
-import userInteraction.UserInteraction;
+import strategy.IInteractionOption;
+import strategy.Ilanguage;
+import strategy.read.IContar_N_VariaveisStrategy;
+import userInteraction.UserInteractionHandler;
 
 public class MyConfiguration {
 
     private static MyConfiguration INSTANCE = null;
     private BaseDeDados contagem;
-    private UserInteraction interaction;
-    private IContar_N_VariaveisStrategy countNStrategy;
+    private UserInteractionHandler interaction;
+
     private Factory factory;
+    private Ilanguage language;
+    private IContar_N_VariaveisStrategy countNStrategy;
+    private IInteractionOption interactionOption;
     private int n;
 
     private MyConfiguration() {    }
@@ -29,9 +34,9 @@ public class MyConfiguration {
         return contagem;
     }
 
-    public UserInteraction getUserInteraction() {
+    public UserInteractionHandler getUserInteraction() {
         if (interaction == null) {
-            interaction = new UserInteraction();
+            interaction = new UserInteractionHandler();
         }
         return interaction;
     }
@@ -43,7 +48,14 @@ public class MyConfiguration {
         return factory;
     }
 
-    public void setNumberCount(int n) { //delete
+    public Ilanguage getLanguage() {
+        if (language == null) {
+            language = getFactory().getLanguage();
+        }
+        return language;
+    }
+
+    public void setNumberCount(int n) { //TODO delete
         this.n = n;
     }
     public IContar_N_VariaveisStrategy getContarNStrategy() {
@@ -51,5 +63,19 @@ public class MyConfiguration {
             countNStrategy = getFactory().getCountNStrategyByIntGiven(n);
         }
         return countNStrategy;
+    }
+
+    public boolean hasInteractionOption(int interaction) { //TODO juntar esta função com a prox
+        if (interactionOption == null) {
+                return getFactory().hasInteractionOption(interaction);
+        }
+        return true;
+    }
+
+    public IInteractionOption getInteractionOption(int interaction){
+        if (interactionOption == null) {
+            interactionOption = getFactory().getInteractionOption(interaction);
+        }
+        return interactionOption;
     }
 }

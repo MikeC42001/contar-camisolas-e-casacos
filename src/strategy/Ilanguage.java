@@ -1,6 +1,8 @@
 package strategy;
 
-public interface Ilanguage { // não sei se ponha tudo static ou não
+public interface Ilanguage { // não dá static
+
+    public int numberOfOptionsGiven();
 
     public String intro();
 
@@ -10,7 +12,13 @@ public interface Ilanguage { // não sei se ponha tudo static ou não
 
     public String receiveNameFileWrite();
 
-    public String givenOptions(int n);
+    public String givenOptions();
+
+    public String giveAnswerNumber();
+
+    public String giveAnswerString();
 
     public String end();
+
+    public String errorMsgWrongInteractionOption();
 }

@@ -1,6 +1,6 @@
 package strategy;
 
-public interface IOpcoesInteraction {
+public interface IInteractionOption {
 
     public void doAction();
 }
