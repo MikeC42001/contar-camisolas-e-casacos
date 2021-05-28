@@ -2,12 +2,12 @@ package contar.app.tuplo;
 
 import java.util.Arrays;
 
-public class ImmutableTuple { //TODO possivelmente desnecessário
+public class ImmutableTuple<T> { //TODO possivelmente desnecessário
 
     private final int length;
-    private final String []tuple;
+    private final T []tuple;
 
-    public ImmutableTuple(String []array) {
+    public ImmutableTuple(T []array) {
         this.length = array.length;
         tuple = Arrays.copyOf(array, length);
     }
@@ -16,27 +16,27 @@ public class ImmutableTuple { //TODO possivelmente desnecessário
         return length;
     }
 
-    public String getFst() {
+    public T getFst() {
         return tuple[0];
     }
 
-    public String getSnd() {
+    public T getSnd() {
         return tuple[1];
     }
 
-    public String getValue(int n) {
-        if (n-2 < getLength() || n > 2) {
+    public T getValue(int n) {
+        if (n <= getLength() || n > 0) {
             return tuple[n-1];
         } //TODO Exception
 
         return null;
     }
 
-    public String getLast() {
+    public T getLast() {
         return tuple[length-1];
     }
 
-    public String[] getTuple() {
+    public T[] getTuple() {
         return tuple;
     }
 }
