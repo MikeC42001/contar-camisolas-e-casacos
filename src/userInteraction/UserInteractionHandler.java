@@ -6,28 +6,45 @@ import java.util.Scanner;
 
 public class UserInteractionHandler {
 
-    public void interact(MyConfiguration config){
+    public void interact(MyConfiguration config, String filesDirectory){
         Scanner sc = new Scanner(System.in);
 
         System.out.println(config.getLanguage().givenOptions());
         System.out.print(config.getLanguage().giveAnswerNumber());
         chooseInteraction(sc.nextInt(), sc, config);
 
-        System.out.println(config.getLanguage().receiveVariable());
-        System.out.print(config.getLanguage().giveAnswerNumber());
-        int apagar = sc.nextInt();
+        askVariable(sc, config);
 
+        askReadFileName(sc, config, filesDirectory);
 
+        askWriteFileName(sc, config, filesDirectory);
 
-        System.out.println(config.getLanguage().receiveNameFileRead());
-        System.out.print(config.getLanguage().giveAnswerString());
+        //TODO inicializar o ficheiro que se vai ler
 
-        System.out.println(config.getLanguage().receiveNameFileWrite());
-        System.out.print(config.getLanguage().giveAnswerString());
+        //TODO inicializar o ficheiro onde se vai escrever
 
         sc.close();
     }
-    public void chooseInteraction(int interaction, Scanner sc, MyConfiguration config) {
+
+    private int askVariable(Scanner sc, MyConfiguration config) {
+        System.out.println(config.getLanguage().receiveVariable());
+        System.out.print(config.getLanguage().giveAnswerNumber());
+        return sc.nextInt();
+    }
+
+    private String askReadFileName(Scanner sc, MyConfiguration config, String filesDirectory) {
+        System.out.println(config.getLanguage().receiveNameFileRead());
+        System.out.print(config.getLanguage().giveAnswerString());
+        return filesDirectory + "/" + sc.next();
+    }
+
+    private String askWriteFileName(Scanner sc, MyConfiguration config, String filesDirectory) {
+        System.out.println(config.getLanguage().receiveNameFileWrite());
+        System.out.print(config.getLanguage().giveAnswerString());
+        return filesDirectory + "/" + sc.next();
+    }
+
+    private void chooseInteraction(int interaction, Scanner sc, MyConfiguration config) {
 
             if (config.hasInteractionOption(interaction)){
 
