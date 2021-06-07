@@ -8,7 +8,7 @@ public class Main {
 
         MyConfiguration config = MyConfiguration.getINSTANCE();
 
-        String filesDirectory = "/home/miguel-linux/Desktop/MiguelL/My_Own_PlusProj/EXCEL/contar-camisolas-e-casacos/ExcelFiles";
+        String filesDirectory = "/home/miguel-linux/Desktop/MiguelL/My_Own_PlusProj/ExcelFiles";
 
         System.out.println(config.getLanguage().intro());
 
