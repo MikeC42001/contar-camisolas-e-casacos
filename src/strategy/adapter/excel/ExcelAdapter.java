@@ -1,4 +1,4 @@
-package strategy.adapter;
+package strategy.adapter.excel;
 
 import strategy.IExcelAdapter;
 
