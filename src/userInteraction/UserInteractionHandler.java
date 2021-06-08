@@ -53,7 +53,9 @@ public class UserInteractionHandler {
                     //askWriteFileName(sc, config, filesDirectory); //TODO FACTORY ALTERNATIVE
                     String WriteFileName = filesDirectory + "/Contagem 20_21 JAVA.xlsx";
 
-                    config.getInteractionOption(interaction).doAction(nVariable, ReadFileName, WriteFileName);
+                    config.setNumberCount(nVariable);
+
+                    config.getInteractionOption(interaction).doAction(config, ReadFileName, WriteFileName);
                 }
 
             } else{

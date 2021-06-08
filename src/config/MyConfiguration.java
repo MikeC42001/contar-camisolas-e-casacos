@@ -58,6 +58,7 @@ public class MyConfiguration {
     public void setNumberCount(int n) { //TODO delete
         this.n = n;
     }
+
     public IContar_N_VariaveisStrategy getContarNStrategy() {
         if (countNStrategy == null) {
             countNStrategy = getFactory().getCountNStrategyByIntGiven(n);
