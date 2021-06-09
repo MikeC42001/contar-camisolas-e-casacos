@@ -42,15 +42,20 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
             itr.forEachRemaining(row -> {
 
                 setVariables(getStringCell(row, 6), getStringCell(row, 7), getStringCell(row, 8), getStringCell(row, 9));
-                try {
-                    adicionaRoupa(config);
-                } catch (InterruptedException e) {
+                //try {
+                adicionaRoupa(config);
+                /*} catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                    System.out.println("Joins in Threads went wrong");
+                }*/
             });
 
-            // HASHMAP TOSTRING
-            config.getBaseDeDados().counterToString();
+            // HASHMAP TOSTRING in console sys.out.prtln
+            config.getBaseDeDados().counterToStringSystemOutPut();
+
+            System.out.println("Quantidade de peças de roupa contadas = " + config.getBaseDeDados().sumCounter());
+
+            config.getBaseDeDados().tabelasToStringSystemOutPut();
 
             /*while(itr.hasNext()){
                 Row row = itr.next();
@@ -96,33 +101,34 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
         return curso;
     }
 
-    private void adicionaRoupa(MyConfiguration config) throws InterruptedException { // Todas as variáveis são utilizadas independentemente entre threads
+    private void adicionaRoupa(MyConfiguration config) /*throws InterruptedException*/ { // Todas as variáveis são utilizadas independentemente entre threads
         if ((getRoupa() != null && getCurso() != null && getTamanho() != null && getCor() != null)) {
 
             // Adiciona tabela template
-            Thread t1 = new Thread() {
-                public void run() {
-                    ImmutableTuple<String> roupaECor = new ImmutableTuple<>(new String[]{getRoupa(), getCor()});
+            /*Thread t1 = new Thread() {
+                public void run() {*/
+            ImmutableTuple<String> roupaECor = new ImmutableTuple<>(new String[]{getRoupa(), getCor()});
 
-                    Tabela table = config.getBaseDeDados().getTabela(roupaECor); // get table with current cor e roupa (adds table and color in function if they dont exist)
-                    table.addTamanho(getTamanho()); // add tamanho de não houver nesta tabela
-                    table.addCurso(getCurso()); // add curso se não houver nesta tabela
+            Tabela table = config.getBaseDeDados().getTabela(roupaECor); // get table with current cor e roupa (adds table and color in function if they dont exist)
+            table.addTamanho(getTamanho()); // add tamanho de não houver nesta tabela
+            table.addCurso(getCurso()); // add curso se não houver nesta tabela
 
-                }
-            };
+           /*     }
+            };*/
 
             // Adiciona +1 na contagem
-            Thread t2 = new Thread() {
-                public void run() {
-                    config.getBaseDeDados().addCountPlus1(new ImmutableTuple<>(new String[]{getRoupa(), getCor(), getTamanho(), getCurso()}));
-                }
+            /*Thread t2 = new Thread() {
+                public void run() {*/
+            config.getBaseDeDados().addCountPlus1(new ImmutableTuple<>(new String[]{getRoupa(), getCor(), getTamanho(), getCurso()}));
+                /*}
             };
 
             t1.start();
             t2.start();
 
-            t1.join();
-            t2.join();// TODO ver se dá para alterar para a forma anterior, sem fzr join
+            t2.join();
+            t1.join();*/
+            // TODO ver se dá para alterar para a forma anterior, sem fzr join
         }
     }
 

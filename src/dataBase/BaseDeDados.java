@@ -11,23 +11,23 @@ public class BaseDeDados {
     private HashMap<ImmutableTuple<String>, Tabela> templateData = new HashMap<ImmutableTuple<String>, Tabela>();
     private HashMap<ImmutableTuple<String>, Integer> counter = new HashMap<ImmutableTuple<String>, Integer>();
 
-    public synchronized List<String> getOrdemTamanhos() {
+    public /*synchronized*/ List<String> getOrdemTamanhos() {
         return ordemTamanhos;
     }
 
-    public synchronized List<String> getCores() {
+    public /*synchronized*/ List<String> getCores() {
         return cores;
     }
 
-    public synchronized HashMap<ImmutableTuple<String>, Integer> getCounter() {
+    public /*synchronized*/ HashMap<ImmutableTuple<String>, Integer> getCounter() {
         return counter;
     }
 
-    public synchronized HashMap<ImmutableTuple<String>, Tabela> getTemplateData() {
+    public /*synchronized*/ HashMap<ImmutableTuple<String>, Tabela> getTemplateData() {
         return templateData;
     }
 
-    public synchronized Tabela getTabela(ImmutableTuple<String> roupaECor) {
+    public /*synchronized*/ Tabela getTabela(ImmutableTuple<String> roupaECor) {
         if (this.templateData.get(roupaECor) == null) {
             addTabela(roupaECor, new Tabela(roupaECor.getFst(), roupaECor.getSnd())); // add table if there isnt some
             addCor(roupaECor.getSnd()); // add color if there isnt
@@ -36,7 +36,7 @@ public class BaseDeDados {
         return this.templateData.get(roupaECor);
     }
 
-    public synchronized boolean addCor(String cor) {
+    public /*synchronized*/ boolean addCor(String cor) {
         if (!this.cores.contains(cor)) {
             this.cores.add(cor);
             return true;
@@ -44,24 +44,34 @@ public class BaseDeDados {
         return false;
     }
 
-    public synchronized void addTabela(ImmutableTuple<String> corERoupa, Tabela tabela) {
+    public /*synchronized*/ void addTabela(ImmutableTuple<String> corERoupa, Tabela tabela) {
         templateData.putIfAbsent(corERoupa, tabela);
     }
 
     public void addCountPlus1(ImmutableTuple<String> RoupaCorTamanhoCurso) {
-        synchronized(counter) {
-            int count = counter.getOrDefault(RoupaCorTamanhoCurso, 0); // ensure count will be one of 0,1,2,3,...
-            counter.put(RoupaCorTamanhoCurso, count + 1);
+        //synchronized(counter) {
+            //int count = counter.getOrDefault(RoupaCorTamanhoCurso, 0); // ensure count will be one of 0,1,2,3,...
+            //counter.put(RoupaCorTamanhoCurso, count + 1);
 
-            //counter.merge(RoupaCorTamanhoCurso, 1, (a, b) -> a + b);
-        }
+            counter.merge(RoupaCorTamanhoCurso, 1, Integer::sum);
+        //}
 
     }
 
-    public synchronized void counterToString() {
+    public /*synchronized*/ void counterToStringSystemOutPut() {
         Collection<ImmutableTuple<String>> stringsDoMap = counter.keySet();
         //mapCounter.values();
 
-        stringsDoMap.stream().forEach(sting -> System.out.println(sting.toString() + " = " + counter.get(sting)));
+        stringsDoMap.forEach(sting -> System.out.println(sting.toString() + " = " + counter.get(sting)));
+    }
+
+    public /*synchronized*/ int sumCounter() {
+        return counter.values().stream().reduce(0, Integer::sum);
+    }
+
+    public void tabelasToStringSystemOutPut() {
+        Collection<ImmutableTuple<String>> stringsDoMapTemplate = templateData.keySet();
+
+        stringsDoMapTemplate.forEach(sting -> System.out.println(sting.toString() + " = " + counter.get(sting)));
     }
 }
