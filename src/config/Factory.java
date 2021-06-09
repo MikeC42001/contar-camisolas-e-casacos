@@ -2,13 +2,14 @@ package config;
 
 import strategy.IInteractionOption;
 import strategy.Ilanguage;
-import strategy.language.*;
+import strategy.language.Pt;
 import strategy.read.IContar_N_VariaveisStrategy;
 import strategy.read.variaveis.Contar_4_DefaultAE;
 
 import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class Factory {
 
@@ -31,9 +32,10 @@ public class Factory {
                 System.out.println("Opção " + (i+1) + ": " + className[i]);
             }
 
-            //Scanner iSc = new Scanner(System.in); "tem a certeza que pretende escolher esta interface: I...?"
+            Scanner iSc = new Scanner(System.in);
+            System.out.println("DIGITE! a Opção que quer");
 
-            Class<?> classCountVariables = Class.forName(className[1]); //iSc.nextInt()-1
+            Class<?> classCountVariables = Class.forName(className[iSc.nextInt()-1]);
             Constructor<?> constructor = classCountVariables.getConstructor();
 
             return (IContar_N_VariaveisStrategy) constructor.newInstance();

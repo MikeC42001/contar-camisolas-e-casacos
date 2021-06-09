@@ -45,7 +45,7 @@ public class UserInteractionHandler {
                 if (config.getInteractionOption(interaction) == null) { // TODO arranjar outra maneira por os dois ifs juntos
                     errorIteractionOption(sc, config, filesDirectory);
                 } else {
-                    int nVariable = askVariable(sc, config);
+                    int nVariable = 4;//askVariable(sc, config); //TODO add up the askVariable
 
                     //askReadFileName(sc, config, filesDirectory); //TODO FACTORY ALTERNATIVE
                     String ReadFileName = filesDirectory + "/Encomenda 20_21 (Respostas).xlsx";

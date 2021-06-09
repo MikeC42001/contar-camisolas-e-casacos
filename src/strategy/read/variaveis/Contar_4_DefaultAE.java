@@ -1,5 +1,7 @@
 package strategy.read.variaveis;
 
+import config.MyConfiguration;
+import contar.app.facade.classes.Tabela;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,7 +18,7 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
     private String curso;
 
     @Override
-    public void contarVariaveis(String readFileName) {
+    public void contarVariaveis(MyConfiguration config, String readFileName) {
 
         // ONDE ESTÂO AS VARIAVEIS!
         // 6-Hoodie/Casaco
@@ -33,38 +35,75 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
 
             Row initialRow = itr.next();
 
+            itr.next();
+
             itr.forEachRemaining(row -> {
+
                 setVariables(row.getCell(6).getStringCellValue(), row.getCell(7).getStringCellValue(), row.getCell(8).getStringCellValue(), row.getCell(9).getStringCellValue());
-                adicionaRoupa();
+                adicionaRoupa(config);
             });
 
+            /*while(itr.hasNext()){
+                Row row = itr.next();
+
+                setVariables(row.getCell(6).getStringCellValue(), row.getCell(7).getStringCellValue(), row.getCell(8).getStringCellValue(), row.getCell(9).getStringCellValue());
+                adicionaRoupa(config);
+            }*/
+
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("WTF ESTAS CONTAR MAL Contar_4_DefaultAE.java");
 
         }
     }
 
-    private void setVariables(String roupa, String cor, String tamanho, String curso){
+    private void setVariables(String roupa, String cor, String tamanho, String curso) {
         this.roupa = roupa;
         this.cor = cor;
         this.tamanho = tamanho;
         this.curso = curso;
 
+        System.out.println(getRoupa() + " " + getCor() + " " + getTamanho() + " " + getCurso());
+
     }
 
-    private void adicionaRoupa() {
+    public String getRoupa() {
+        return roupa;
+    }
 
-        new Thread(() -> {
-            config
+    public String getCor() {
+        return cor;
+    }
 
-        }).start();
+    public String getTamanho() {
+        return tamanho;
+    }
 
-        new Thread(() -> {
+    public String getCurso() {
+        return curso;
+    }
 
-        }).start();
+    private void adicionaRoupa(MyConfiguration config) { // Todas as variáveis são utilizadas independentemente entre threads
+        if ((getRoupa() != null && getCurso() != null && getTamanho() != null && getCor() != null)) {
+
+            // Adiciona tabela template
+                new Thread(() -> {
+                    String[] roupaECor = new String[]{getRoupa(), getCor()};
+
+                    Tabela table = config.getBaseDeDados().getTabela(roupaECor); // get table with current cor e roupa (adds table and color in function if they dont exist)
+                    table.addTamanho(getTamanho()); // add tamanho de não houver nesta tabela
+                    table.addCurso(getCurso()); // add curso se não houver nesta tabela
+
+                }).start();
+
+            // Adiciona +1 na contagem
+            new Thread(() -> config.getBaseDeDados().addCountPlus1(new String[]{getRoupa(), getCor(), getTamanho(), getCurso()})).start();
+
+        }
     }
 
     @Override
-    public void construirTemplate() {
+    public void construirTemplate(MyConfiguration config, String writeFileName) {
 
     }
 }
