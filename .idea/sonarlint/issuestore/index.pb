@@ -33,7 +33,5 @@ G
 src/config/Factory.java,a/7/a750bedf0e59bf26e9d79f80c4ece95c90dc3bcf
 F
 preferences.properties,f/e/fef3389b59ecf34bac8d67af3cb55e9090448b8f
-Y
-)src/contar/app/facade/classes/Tabela.java,d/4/d4bdb97d312499c54caaf4e5ca7d1a4bf084c867
 _
 /src/userInteraction/UserInteractionHandler.java,4/d/4dda9fc2deae48973345d7e4ab1156f9721064aa

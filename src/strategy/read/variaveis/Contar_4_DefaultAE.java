@@ -50,11 +50,14 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
                 }*/
             });
 
-            // HASHMAP TOSTRING in console sys.out.prtln
+            // HASHMAP TOSTRING in console sys.out.prtln TESTE
             config.getBaseDeDados().counterToStringSystemOutPut();
 
             System.out.println("Quantidade de peças de roupa contadas = " + config.getBaseDeDados().sumCounter());
 
+            config.getBaseDeDados().sortTamanhosDeTabelas();
+
+            // TABELAS TOSTRING in console sys.out.prtln TESTE
             config.getBaseDeDados().tabelasToStringSystemOutPut();
 
             /*while(itr.hasNext()){
