@@ -45,7 +45,7 @@ public class ExcelAdapter implements IExcelAdapter<String> {
                 return IndexedColors.BLUE_GREY.getIndex();
 
             case "Bordeaux":
-                return IndexedColors.ROSE.getIndex();
+                return IndexedColors.RED.getIndex();
 
             case "Cinza Mescla":
                 return IndexedColors.GREY_25_PERCENT.getIndex();
@@ -54,7 +54,7 @@ public class ExcelAdapter implements IExcelAdapter<String> {
                 return IndexedColors.BLACK.getIndex();
 
             case "Rosa Bebé":
-                return IndexedColors.PINK.getIndex();
+                return IndexedColors.ROSE.getIndex();
 
             case "Verde Garrafa":
                 return IndexedColors.GREEN.getIndex();
