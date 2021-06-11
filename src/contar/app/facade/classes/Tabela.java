@@ -11,7 +11,7 @@ public class Tabela {
     private List<String> tamanhos = new ArrayList<>();
     private List<String> cursos = new ArrayList<>();
     private final static List<String> desiredOrderTamanhos = Arrays.asList("XS", "S", "M", "L", "XL", "XXL");
-    private final static Comparator<String> sizeOrder = Comparator.comparingInt(desiredOrderTamanhos::indexOf);
+    private final static Comparator<String> sizeOrderTamanhos = Comparator.comparingInt(desiredOrderTamanhos::indexOf);
 
     public Tabela(String vestuario, String cor) {
         this.vestuario = vestuario;
@@ -59,7 +59,7 @@ public class Tabela {
     }
 
     public void sortInOrderTamanhos() {
-        tamanhos.sort(sizeOrder);
+        tamanhos.sort(sizeOrderTamanhos);
 
         //tamanhos.sort(Comparator.comparing(Tabela::numerical));
     }

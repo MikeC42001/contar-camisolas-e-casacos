@@ -8,11 +8,18 @@ import java.util.*;
 public class BaseDeDados {
 
     private List<String> cores = new ArrayList<>();
+    private List<String> roupas = new ArrayList<>();
     private HashMap<ImmutableTuple<String>, Tabela> templateData = new HashMap<ImmutableTuple<String>, Tabela>();
     private HashMap<ImmutableTuple<String>, Integer> counter = new HashMap<ImmutableTuple<String>, Integer>();
+    private final static List<String> desiredOrderRoupa = Arrays.asList("Hoodie", "Casaco");
+    private final static Comparator<String> sizeOrderRoupa = Comparator.comparingInt(desiredOrderRoupa::indexOf);
 
     public /*synchronized*/ List<String> getCores() {
         return cores;
+    }
+
+    public List<String> getRoupas() {
+        return roupas;
     }
 
     public /*synchronized*/ HashMap<ImmutableTuple<String>, Integer> getCounter() {
@@ -26,10 +33,17 @@ public class BaseDeDados {
     public /*synchronized*/ Tabela getTabela(ImmutableTuple<String> roupaECor) {
         if (this.templateData.get(roupaECor) == null) {
             addTabela(roupaECor, new Tabela(roupaECor.getFst(), roupaECor.getSnd())); // add table if there isnt some
+            addRoupa(roupaECor.getFst());
             addCor(roupaECor.getSnd()); // add color if there isnt
         }
 
         return this.templateData.get(roupaECor);
+    }
+
+    private void addRoupa(String roupa) {
+        if (!this.roupas.contains(roupa)) {
+            this.roupas.add(roupa);
+        }
     }
 
     public /*synchronized*/ void addCor(String cor) {
@@ -44,10 +58,10 @@ public class BaseDeDados {
 
     public void addCountPlus1(ImmutableTuple<String> RoupaCorTamanhoCurso) {
         //synchronized(counter) {
-            //int count = counter.getOrDefault(RoupaCorTamanhoCurso, 0); // ensure count will be one of 0,1,2,3,...
-            //counter.put(RoupaCorTamanhoCurso, count + 1);
+        //int count = counter.getOrDefault(RoupaCorTamanhoCurso, 0); // ensure count will be one of 0,1,2,3,...
+        //counter.put(RoupaCorTamanhoCurso, count + 1);
 
-            counter.merge(RoupaCorTamanhoCurso, 1, Integer::sum);
+        counter.merge(RoupaCorTamanhoCurso, 1, Integer::sum);
         //}
 
     }
@@ -66,5 +80,17 @@ public class BaseDeDados {
 
     public void sortTamanhosDeTabelas() {
         templateData.values().forEach(Tabela::sortInOrderTamanhos);
+    }
+
+    public void sortRoupaDeTabelas() {
+        roupas.sort(sizeOrderRoupa);
+    }
+
+    public void sortListaDeCores() {
+        java.util.Collections.sort(cores);
+    }
+
+    public void coresToStringSystemOutPut() {
+        System.out.println(cores.toString());
     }
 }

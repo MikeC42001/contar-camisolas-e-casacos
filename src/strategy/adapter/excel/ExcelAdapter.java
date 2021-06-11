@@ -1,5 +1,6 @@
 package strategy.adapter.excel;
 
+import org.apache.poi.ss.usermodel.IndexedColors;
 import strategy.IExcelAdapter;
 
 import java.util.List;
@@ -32,5 +33,34 @@ public class ExcelAdapter implements IExcelAdapter<String> {
         style.setFillForegroundColor(IndexedColors.RED.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         row.getCell(0).setCellStyle(style);*/
+    }
+
+    public static short getExcelCorPrincipal(String cor) {
+        switch (cor) {
+
+            case "Azul Bebé Claro":
+                return IndexedColors.BLUE1.getIndex();
+
+            case "Azul Marinho":
+                return IndexedColors.BLUE_GREY.getIndex();
+
+            case "Bordeaux":
+                return IndexedColors.ROSE.getIndex();
+
+            case "Cinza Mescla":
+                return IndexedColors.GREY_25_PERCENT.getIndex();
+
+            case "Preto":
+                return IndexedColors.BLACK.getIndex();
+
+            case "Rosa Bebé":
+                return IndexedColors.PINK.getIndex();
+
+            case "Verde Garrafa":
+                return IndexedColors.GREEN.getIndex();
+
+            default:
+                return IndexedColors.BLACK1.getIndex();
+        }
     }
 }
