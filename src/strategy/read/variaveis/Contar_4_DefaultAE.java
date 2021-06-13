@@ -46,15 +46,17 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
 
             itr.next(); // elimina a segunda linha, indice 2 no excel, se for tudo null
 
+            boolean isFisrt = true;
+
             itr.forEachRemaining(row -> {
 
                 setVariables(getStringCell(row, 6), getStringCell(row, 7), getStringCell(row, 8), getStringCell(row, 9));
-                //try {
-                adicionaRoupa(config);
-                /*} catch (InterruptedException e) {
+                try {
+                    adicionaRoupa(config, isFisrt);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("Joins in Threads went wrong");
-                }*/
+                }
             });
 
             // HASHMAP TOSTRING in console sys.out.prtln TESTE
@@ -102,50 +104,59 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
 
     }
 
-    public String getRoupaBuffer() {
+    private String getRoupaBuffer() {
         return roupaBuffer;
     }
 
-    public String getCorBuffer() {
+    private String getCorBuffer() {
         return corBuffer;
     }
 
-    public String getTamanhoBuffer() {
+    private String getTamanhoBuffer() {
         return tamanhoBuffer;
     }
 
-    public String getCursoBuffer() {
+    private String getCursoBuffer() {
         return cursoBuffer;
     }
 
-    private void adicionaRoupa(MyConfiguration config) /*throws InterruptedException*/ { // Todas as variáveis são utilizadas independentemente entre threads
+    private void adicionaRoupa(MyConfiguration config, boolean isFisrt) throws InterruptedException { // Todas as variáveis são utilizadas independentemente entre threads
         if ((getRoupaBuffer() != null && getCursoBuffer() != null && getTamanhoBuffer() != null && getCorBuffer() != null)) {
 
             // Adiciona tabela template
-            /*Thread t1 = new Thread() {
-                public void run() {*/
-            ImmutableTuple<String> roupaECor = new ImmutableTuple<>(new String[]{getRoupaBuffer(), getCorBuffer()});
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    ImmutableTuple<String> roupaECor = new ImmutableTuple<>(new String[]{getRoupaBuffer(), getCorBuffer()});
 
-            Tabela table = config.getBaseDeDados().getTabela(roupaECor); // get table with current cor e roupa (adds table and color in function if they dont exist)
-            table.addTamanho(getTamanhoBuffer()); // add tamanho de não houver nesta tabela
-            table.addCurso(getCursoBuffer()); // add curso se não houver nesta tabela
+                    Tabela table = config.getBaseDeDados().getTabela(roupaECor); // get table with current cor e roupa (adds table and color in function if they dont exist)
+                    table.addTamanho(getTamanhoBuffer()); // add tamanho de não houver nesta tabela
+                    table.addCurso(getCursoBuffer()); // add curso se não houver nesta tabela
 
-           /*     }
-            };*/
+                }
+            };
+            t1.start();
+
+            if (isFisrt) {
+                t1.join();
+                isFisrt = false;
+            }
+
 
             // Adiciona +1 na contagem
-            /*Thread t2 = new Thread() {
-                public void run() {*/
-            config.getBaseDeDados().addCountPlus1(new ImmutableTuple<>(new String[]{getRoupaBuffer(), getCorBuffer(), getTamanhoBuffer(), getCursoBuffer()}));
-                /*}
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    config.getBaseDeDados().addCountPlus1(new ImmutableTuple<>(new String[]{getRoupaBuffer(), getCorBuffer(), getTamanhoBuffer(), getCursoBuffer()}));
+                }
             };
 
-            t1.start();
             t2.start();
 
+            if (t1.isAlive()) {
+                t1.join();
+            }
             t2.join();
-            t1.join();*/
-            // TODO ver se dá para alterar para a forma anterior, sem fzr join
         }
     }
 
