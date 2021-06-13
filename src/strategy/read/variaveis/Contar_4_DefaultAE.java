@@ -198,7 +198,7 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
                 Row rrrr = sheet.createRow(nRow++);
 
                 XSSFCellStyle style = workbook.createCellStyle();
-                style.setFillForegroundColor(IndexedColors.ROSE.getIndex());
+                style.setFillForegroundColor(IndexedColors.BLACK.getIndex());
                 style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 //rrrr.getCell(0).setCellStyle(style);
 
