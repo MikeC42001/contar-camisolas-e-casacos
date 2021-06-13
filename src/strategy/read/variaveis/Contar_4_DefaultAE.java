@@ -42,7 +42,7 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
             XSSFSheet sheet = wb.getSheetAt(0);    //fui buscar  a primeira folha
             Iterator<Row> itr = sheet.iterator();    // tenho um iterador
 
-            Row initialRow = itr.next();
+            Row initialRow = itr.next(); // primeira linha
 
             itr.next(); // elimina a segunda linha, indice 2 no excel, se for tudo null
 
@@ -89,7 +89,7 @@ public class Contar_4_DefaultAE implements IContar_N_VariaveisStrategy {
     }
 
     private String getStringCell(Row row, int i) {
-        return ((row.getCell(i).getCellType().equals(CellType.BLANK)) ? null : row.getCell(i).getStringCellValue());
+        return ((row.getCell(i).getCellType().equals(CellType.BLANK)) ? null : row.getCell(i).getStringCellValue()); //TODO P em EXCEL ADAPTER
     }
 
     private void setVariables(String roupa, String cor, String tamanho, String curso) {
