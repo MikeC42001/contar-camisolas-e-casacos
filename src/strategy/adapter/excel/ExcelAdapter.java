@@ -1,33 +1,33 @@
 package strategy.adapter.excel;
 
+import contar.app.tuplo.ImmutableTuple;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import strategy.IExcelAdapter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class ExcelAdapter implements IExcelAdapter<String> {
+public class ExcelAdapter /*implements IExcelAdapter<String>*/ {
 
-    @Override
-    public String readCell(int row, int column) {
-        return null;
-    }
+    private final static int START_N_CELL = 1;
 
-    @Override
-    public String readRow(int row) {
-        return null;
-    }
-
-    @Override
-    public void writeCell(int row, int column, String input) {
+    public void setStyle() {
 
     }
 
-    @Override
-    public void writeRow(int row, int startColumn, List<String> input) {
+    private XSSFCellStyle createStyle(XSSFWorkbook workbook) {
+        XSSFCellStyle style = workbook.createCellStyle();
 
+        style.setAlignment(HorizontalAlignment.CENTER);
+
+        return style;
     }
 
-    @Override
     public void setCellColor(int row, int column/*, IndexedColors color*/) {
         /*XSSFCellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(IndexedColors.RED.getIndex());
@@ -62,5 +62,78 @@ public class ExcelAdapter implements IExcelAdapter<String> {
             default:
                 return IndexedColors.BLACK1.getIndex();
         }
+    }
+
+    private static String getLetterColumn(int nColumn) {
+        String name = "";
+        while (nColumn > 0) {
+            nColumn--;
+            name = (char) ('A' + nColumn % 26) + name;
+            nColumn /= 26;
+        }
+        return name;
+    }
+
+    public static void createSumTotalLine(XSSFSheet sheet, int nRow, int sizeHorizontal, int sizeVertical) {
+        Row row = sheet.createRow(nRow);
+        createCellString(row, 0, "TOTAL");
+        for (int i = START_N_CELL; i <= sizeHorizontal + 1; i++) {
+            createVertivalSumEquationCell(row, i, nRow, sizeVertical);
+        }
+
+        createHorizontalSumEquationCell(row, nRow, sizeHorizontal);
+
+    }
+
+    private static void createHorizontalSumEquationCell(Row row, int nRow, int sizeHorizontal) {
+        int sumColumn = (sizeHorizontal + 1);
+
+        Cell cell = row.createCell(sumColumn);
+
+        String columnStart = getLetterColumn(2);
+        String columnEnd = getLetterColumn(sumColumn);
+
+        String range = columnStart + (nRow + 1) + ":" + columnEnd + (nRow + 1);
+        cell.setCellFormula("SUM(" + range + ")");
+    }
+
+    private static void createVertivalSumEquationCell(Row row, int nColumn, int nRow, int sizeVertical) {
+        Cell cell = row.createCell(nColumn);
+        String column = getLetterColumn(++nColumn);
+        String range = column + (nRow - sizeVertical) + ":" + column + nRow;
+        cell.setCellFormula("SUM(" + range + ")");
+    }
+
+    public static void createLineContagemDeCurso(HashMap<ImmutableTuple<String>, Integer> counterData, Row row, String roupa, String cor, String curso, List<String> tamanhos) {
+
+        for (int i = START_N_CELL; i <= tamanhos.size(); i++) {
+            ImmutableTuple<String> roupaCorTamanhoCursoBuff = new ImmutableTuple<>(new String[]{roupa, cor, tamanhos.get(i - 1), curso});
+
+            if (counterData.containsKey(roupaCorTamanhoCursoBuff)) {
+                createCellInt(row, i, counterData.get(roupaCorTamanhoCursoBuff));
+            }
+        }
+    }
+
+    public static void createLine(XSSFSheet sheet, int nRow, int nColumn, String value) {
+        Row row = sheet.createRow(nRow);
+        createCellString(row, nColumn, value);
+    }
+
+    public static void createLine(XSSFSheet sheet, int nRow, List<String> values) {
+        Row row = sheet.createRow(nRow);
+        for (int i = START_N_CELL; i <= values.size(); i++) {
+            createCellString(row, i, values.get(i - 1));
+        }
+    }
+
+    private static void createCellInt(Row row, int nColumn, Integer integer) {
+        Cell cell = row.createCell(nColumn);
+        cell.setCellValue(integer);             // CRIA MESMO A CÉLULA!
+    }
+
+    private static void createCellString(Row row, int nColumn, String value) {
+        Cell cell = row.createCell(nColumn);
+        cell.setCellValue(value);       // CRIA MESMO A CÉLULA!
     }
 }

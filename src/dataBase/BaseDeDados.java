@@ -9,8 +9,8 @@ public class BaseDeDados {
 
     private List<String> cores = new ArrayList<>();
     private List<String> roupas = new ArrayList<>();
-    private HashMap<ImmutableTuple<String>, Tabela> templateData = new HashMap<ImmutableTuple<String>, Tabela>();
-    private HashMap<ImmutableTuple<String>, Integer> counter = new HashMap<ImmutableTuple<String>, Integer>();
+    private HashMap<ImmutableTuple<String>, Tabela> templateData = new HashMap<>();
+    private HashMap<ImmutableTuple<String>, Integer> counter = new HashMap<>();
     private final static List<String> desiredOrderRoupa = Arrays.asList("Hoodie", "Casaco");
     private final static Comparator<String> sizeOrderRoupa = Comparator.comparingInt(desiredOrderRoupa::indexOf);
 
@@ -56,12 +56,12 @@ public class BaseDeDados {
         templateData.putIfAbsent(corERoupa, tabela);
     }
 
-    public synchronized void addCountPlus1(ImmutableTuple<String> RoupaCorTamanhoCurso) {
-        counter.merge(RoupaCorTamanhoCurso, 1, Integer::sum);
+    public synchronized void addCountPlus1(ImmutableTuple<String> roupaCorTamanhoCursoBuff) {
+        counter.merge(roupaCorTamanhoCursoBuff, 1, Integer::sum);
     }
 
     public void counterToStringSystemOutPut() {
-        counter.keySet().forEach(sting -> System.out.println(sting.toString() + " = " + counter.get(sting)));
+        counter.keySet().forEach(camisola -> System.out.println(camisola.toString() + " = " + counter.get(camisola)));
     }
 
     public int sumCounter() {
